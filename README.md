@@ -20,7 +20,7 @@ The Talk2Car dataset is part of the [Commands for Autonomous Vehicles](https://c
 
 ## C4AV Challenge - Quick Start
 
-To help participants get started in the C4AV challenge. We provide a PyTorch code base in the c4av directory that allows you train a baseline model on the Talk2Car dataset within minutes. Additionally, we include the images and commands as separate files which avoids the need to download the entire nuScenes dataset first. 
+To help participants get started in the C4AV challenge, we provide a PyTorch code base in the c4av directory that allows to train a baseline model on the Talk2Car dataset within minutes. Additionally, we include the images and commands as separate files which avoids the need to download the entire nuScenes dataset first. 
 
 ## Dataset
 
