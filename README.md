@@ -18,6 +18,10 @@ If you use this work for your own research, please consider citing:
 
 The Talk2Car dataset is part of the [Commands for Autonomous Vehicles](https://c4av-2020.github.io/) (C4AV) challenge. The challenge requires to solve a visual grounding task. The following sections introduce the dataset, some example images and an evaluation script. The format required to submit to the challenge is the same as the one used in the evaluation example. More details about the visual grounding task on Talk2Car are provided in the paper. Finally, we include a simple baseline as a python notebook to help people get acquainted with the task.  
 
+## C4AV Challenge - Quick Start
+
+To help participants get started in the C4AV challenge. We provide a PyTorch code base in the c4av directory that allows you train a baseline model on the Talk2Car dataset within minutes. Additionally, we include the images and commands as separate files which avoids the need to download the entire nuScenes dataset first. 
+
 ## Dataset
 
 The Talk2Car dataset is built upon the [nuScenes](https://www.nuscenes.org/) dataset. The nuScenes dataset has to be downloaded separately. The `example.py` file provides an example for loading the data in PyTorch using the Talk2Car class from the `talktocar.py` file. We advise to create a conda environment to run the code. The nuscenes-devkit is required in addition to some popular python packages which can be easily installed through conda or pip. The code can be run as follows:
