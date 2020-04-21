@@ -88,16 +88,14 @@ class Talk2Car(data.Dataset):
                     pass # Will keep zeros
             output['rpn_image'] = rpn_image # Stored as a single tensor
 
-        # Load ground-truth (xl, yb, xr, yt) if possible
-        if 'referred_object' in sample.keys():
-            gt = sample['referred_object']
-            xl, yl, xt, yt = gt[0], gt[1], gt[0]+gt[2], gt[1]+gt[3]
-            output['gt_bbox_lbrt'] = torch.LongTensor([xl,yl,xt,yt])
-
         # Add extra info for training if needed 
         # GT is the proposal with best overlap. 
         # If IoU < 0.5 for best box, add ignore index
         if self.add_train_annos:
+            gt = sample['referred_object']
+            xl, yl, xt, yt = gt[0], gt[1], gt[0]+gt[2], gt[1]+gt[3]
+            output['gt_bbox_lbrt'] = torch.LongTensor([xl,yl,xt,yt])
+
             iou_array = jaccard(output['rpn_bbox_lbrt'].numpy(), output['gt_bbox_lbrt'].numpy().reshape(1, -1))
             output['rpn_iou'] = torch.from_numpy(iou_array)
             if np.any(iou_array >= 0.5):

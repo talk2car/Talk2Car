@@ -13,7 +13,14 @@ You can run the code as follows.
 python3 train.py --root ./data --lr 0.01 --nesterov --evaluate 
 ```
 
-The published code can be used to train a model that obtains +- 42% AP50 on the validation set. The training can be done on a single 1080ti GPU in just a few hours. 
+The published code can be used to train a model that obtains +- 42% AP50 on the validation set. The training can be done on a single 1080ti GPU in just a few hours.
+
+## Submission
+A submission file can be created by running the test.py script. This will create a predictions.json file that can be uploaded to the C4AV test server.
+
+```
+python3 test.py --root ./data
+```
  
 ## Requirements
 
@@ -26,3 +33,4 @@ python -m spacy download en_core_web_sm
 ## Pretrained models
 
 Obtain a pretrained model [here](https://drive.google.com/open?id=1-FsTYjMxv7-Pw_eXHyDOGTgDlscRyA1j).
+

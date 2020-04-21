@@ -19,7 +19,6 @@ from utils.util import AverageMeter, ProgressMeter, save_checkpoint
 
 import models.resnet as resnet
 import models.nlp_models as nlp_models
-import models.loss as loss
 
 parser = argparse.ArgumentParser(description='Talk2Car object referral')
 parser.add_argument('--root', metavar='DIR',
@@ -74,7 +73,8 @@ def main():
     img_encoder.cuda()
     text_encoder.cuda()
 
-    criterion = loss.LossFunction() 
+    criterion = nn.CrossEntropyLoss(ignore_index = train_dataset.ignore_index, 
+                                    reduction = 'mean')
     criterion.cuda()    
     
     cudnn.benchmark = True
@@ -179,11 +179,9 @@ def train(train_dataloader, img_encoder, text_encoder, optimizer, criterion,
      
         # Product in latent space
         scores = torch.bmm(img_features.view(b, r, -1), sentence_features.unsqueeze(2)).squeeze()
-        scores = 0.5*(scores + 1) # Remap between 0 and 1.
 
         # Loss
-        gt_loss = (iou > 0.50).float() # If IoU > 0.5, then the bounding box is considered valid.
-        total_loss, pred = criterion(scores, gt_loss)
+        total_loss = criterion(scores, gt)
 
         # Update
         optimizer.zero_grad()
@@ -191,6 +189,7 @@ def train(train_dataloader, img_encoder, text_encoder, optimizer, criterion,
         optimizer.step()
         
         # Summary
+        pred = torch.argmax(scores, 1)
         pred_bin = F.one_hot(pred, r).bool()
         valid = (gt!=ignore_index)
         num_valid = torch.sum(valid).float().item()
@@ -217,7 +216,6 @@ def evaluate(val_dataloader, img_encoder, text_encoder, args):
     text_encoder.eval()
     
     ignore_index = val_dataloader.dataset.ignore_index
-    prediction_dict = {}       
  
     for i, batch in enumerate(val_dataloader):
         
@@ -225,8 +223,6 @@ def evaluate(val_dataloader, img_encoder, text_encoder, args):
         region_proposals = batch['rpn_image'].cuda(non_blocking=True)
         command = batch['command'].cuda(non_blocking=True)
         command_length = batch['command_length'].cuda(non_blocking=True)
-        gt = batch['rpn_gt'].cuda(non_blocking=True)
-        iou = batch['rpn_iou'].cuda(non_blocking=True)
         b, r, c, h, w = region_proposals.size()
 
         # Image features
@@ -244,28 +240,17 @@ def evaluate(val_dataloader, img_encoder, text_encoder, args):
 
         # Summary
         pred = torch.argmax(scores, 1)
+        gt = batch['rpn_gt'].cuda(non_blocking=True)
+        iou = batch['rpn_iou'].cuda(non_blocking=True)
         pred_bin = F.one_hot(pred, r).bool()
         valid = (gt!=ignore_index)
         num_valid = torch.sum(valid).float().item()
         m_top1.update(torch.sum(pred[valid]==gt[valid]).float().item(), num_valid)
         m_iou.update(torch.masked_select(iou, pred_bin).sum().float().item(), b)
         m_ap50.update((torch.masked_select(iou, pred_bin) > 0.5).sum().float().item(), b)
-
-        # Add predictions to dict
-        for i_, idx_ in enumerate(batch['index'].tolist()):
-            token = val_dataloader.dataset.convert_index_to_command_token(idx_)
-            bbox = batch['rpn_bbox_lbrt'][i_, pred[i_]].tolist()
-            bbox = [bbox[0], bbox[1], bbox[2]-bbox[0], bbox[3]-bbox[1]]
-            prediction_dict[token] = bbox
-            
-
         if i % args.print_freq==0:
             progress.display(i)
 
-    with open('predictions.json', 'w') as f:
-        json.dump(prediction_dict, f)
-        
-
-    return m_ap50.avg    
+    return m_ap50.avg   
 
 main()
