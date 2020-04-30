@@ -1,6 +1,6 @@
 # C4AV Challenge
 
-This directory contains a code base to help researchers participate in the [C4AV Challenge](https://c4av-2020.github.io/challenge.html). A model is trained for the object referral task by matching an embedding of the command with an embedding of object region proposals obtained with CenterNet. A technical report detailing the solution can be found [here](https://github.com/talk2car/Talk2Car/blob/master/c4av_model/C4AV_Baseline.pdf).
+This directory contains a code base to help researchers participate in the [C4AV Challenge](https://c4av-2020.github.io/challenge.html). A model is trained for the object referral task by matching an embedding of the command with an embedding of object region proposals obtained with CenterNet. A technical report detailing the solution can be found [here](https://arxiv.org/abs/2004.13822).
 
 The images are delivered as a single zip file, together with a json file that contains the necessary annotations and bounding box coordinates of region proposals extracted with CenterNet.
 
