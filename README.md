@@ -16,7 +16,7 @@ If you use this work for your own research, please consider citing:
 
 ## C4AV Challenge
 
-The Talk2Car dataset is part of the [Commands for Autonomous Vehicles](https://c4av-2020.github.io/) (C4AV) challenge. The challenge requires to solve a visual grounding task. The following sections introduce the dataset, some example images and an evaluation script. The format required to submit to the challenge is the same as the one used in the evaluation example. More details about the visual grounding task on Talk2Car are provided in the paper. Finally, we include a simple baseline as a python notebook to help people get acquainted with the task.  
+The Talk2Car dataset is part of the [Commands for Autonomous Vehicles](https://www.aicrowd.com/challenges/eccv-2020-commands-4-autonomous-vehicles) challenge. The challenge requires to solve a visual grounding task. The following sections introduce the dataset, some example images and an evaluation script. The format required to submit to the challenge is the same as the one used in the evaluation example. More details about the visual grounding task on Talk2Car are provided in the paper. Finally, we include a simple baseline as a python notebook to help people get acquainted with the task.  
 
 ## C4AV Challenge - Quick Start
 
