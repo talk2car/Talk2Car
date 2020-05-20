@@ -1,6 +1,6 @@
 # C4AV Challenge
 
-This directory contains a code base to help researchers participate in the [C4AV Challenge](https://c4av-2020.github.io/challenge.html). A model is trained for the object referral task by matching an embedding of the command with an embedding of object region proposals obtained with CenterNet. A technical report detailing the solution can be found [here](https://arxiv.org/abs/2004.13822).
+This directory contains a code base to help researchers participate in the [C4AV Challenge](https://www.aicrowd.com/challenges/eccv-2020-commands-4-autonomous-vehicles). A model is trained for the object referral task by matching an embedding of the command with an embedding of object region proposals obtained with CenterNet. A technical report detailing the solution can be found [here](https://arxiv.org/abs/2004.13822).
 
 The images are delivered as a single zip file, together with a json file that contains the necessary annotations and bounding box coordinates of region proposals extracted with CenterNet.
 
@@ -16,7 +16,7 @@ python3 train.py --root ./data --lr 0.01 --nesterov --evaluate
 The published code can be used to train a model that obtains +- 42% AP50 on the validation set. The training can be done on a single 1080ti GPU in just a few hours.
 
 ## Submission
-A submission file can be created by running the test.py script. This will create a predictions.json file that can be uploaded to the C4AV test server. The predictions.json file that is delivered with the repository contains the predictions of the pre-trained model. 
+A submission file can be created by running the test.py script. This will create a predictions.json file that can be uploaded to the our test server on [AICrowd](https://www.aicrowd.com/challenges/eccv-2020-commands-4-autonomous-vehicles). The predictions.json file that is delivered with the repository contains the predictions of the pre-trained model. 
 
 ```
 python3 test.py --root ./data
