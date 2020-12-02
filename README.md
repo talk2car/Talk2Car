@@ -38,7 +38,7 @@ Copy the Talk2Car json files to a directory named 'commands' in the nuScenes dat
 ```
 mkdir talk2car
 cd talk2car
-git clone https://github.com/talk2car/Talk2Car-dataset.git .
+git clone https://github.com/talk2car/Talk2Car.git .
 export COMMANDS=$NUSCENES'/commands/'
 mkdir -p $COMMANDS
 cp ./data/* $COMMANDS
