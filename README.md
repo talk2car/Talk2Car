@@ -24,8 +24,9 @@ To help participants get started in the C4AV challenge, we provide a [PyTorch co
 
 ## Dataset
 
-The Talk2Car dataset is built upon the [nuScenes](https://www.nuscenes.org/) dataset. The nuScenes dataset has to be downloaded separately. The `example.py` file provides an example for loading the data in PyTorch using the Talk2Car class from the `talktocar.py` file. We advise to create a conda environment to run the code. The nuscenes-devkit is required in addition to some popular python packages which can be easily installed through conda or pip. The code can be run as follows:
+The Talk2Car dataset is built upon the [nuScenes](https://www.nuscenes.org/) dataset. As such, you can either download the complete nuScenes dataset (option 1) or you can only download the required images (option 2). The `example.py` file provides an example for loading the data in PyTorch using the Talk2Car class from the `talktocar.py` file. We advise to create a conda environment to run the code. The nuscenes-devkit is required in addition to some popular python packages which can be easily installed through conda or pip. The code can be run as follows:
 
+### Option 1: Downloading the full dataset
 Export the path where you put the nuScenes data and install the nuscenes-devkit through pip.
 
 ```
@@ -48,6 +49,11 @@ Run the example file.
 ```
 python3 ./example.py --root $NUSCENES
 ```
+
+### Option 2: Downloading only the required images
+
+If you are interested in only downloading the required images, please take a look [here](https://github.com/talk2car/Talk2Car/tree/master/c4av_model).
+A working baseline is also included in the above link!
 
 ## Example
 An example image is given below for the following command: "You can park up ahead behind <b>the silver car, next to that lamppost with the orange sign on it</b>". The referred object is indicated in bold.
