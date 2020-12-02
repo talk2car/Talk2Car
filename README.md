@@ -22,11 +22,14 @@ The Talk2Car dataset is part of the [Commands for Autonomous Vehicles](https://w
 
 To help participants get started in the C4AV challenge, we provide a [PyTorch code base](https://github.com/talk2car/Talk2Car/tree/master/c4av_model) that allows to train a baseline model on the Talk2Car dataset within minutes. Additionally, we include the images and commands as separate files which avoids the need to download the entire nuScenes dataset first. 
 
-## Dataset
+## Minified Dataset
 
-The Talk2Car dataset is built upon the [nuScenes](https://www.nuscenes.org/) dataset. As such, you can either download the complete nuScenes dataset (option 1) or you can only download the required images (option 2). The `example.py` file provides an example for loading the data in PyTorch using the Talk2Car class from the `talktocar.py` file. We advise to create a conda environment to run the code. The nuscenes-devkit is required in addition to some popular python packages which can be easily installed through conda or pip. The code can be run as follows:
+We provide a minified Talk2Car dataset with only the necessary images and commands [here](https://github.com/talk2car/Talk2Car/tree/master/c4av_model).
 
-### Option 1: Downloading the full dataset
+## Complete Dataset
+
+The Talk2Car dataset is built upon the [nuScenes](https://www.nuscenes.org/) dataset. As such, you need to download the complete nuScenes dataset. On their download page, you will need to download all 10 parts. You will need 300GB+ to download all data. The `example.py` file provides an example for loading the data in PyTorch using the Talk2Car class from the `talktocar.py` file. We advise to create a conda environment to run the code. The nuscenes-devkit is required in addition to some popular python packages which can be easily installed through conda or pip. The code can be run as follows:
+
 Export the path where you put the nuScenes data and install the nuscenes-devkit through pip.
 
 ```
