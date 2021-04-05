@@ -1,3 +1,5 @@
+Project financed by Internal Funds KU Leuven (C14/18/065). Talk2Car is part of the [MACCHINA](https://macchina-ai.cs.kuleuven.be/) project 
+
 # Talk2Car
 
 This repository contains the data and development kit for the Talk2Car dataset presented in our paper [Talk2Car: Taking Control of Your Self-Driving Car](https://arxiv.org/pdf/1909.10838).
