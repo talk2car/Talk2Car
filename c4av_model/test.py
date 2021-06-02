@@ -103,4 +103,5 @@ def evaluate(val_dataloader, img_encoder, text_encoder, args):
     with open('predictions.json', 'w') as f:
         json.dump(prediction_dict, f)
         
-main()
+if __name__ == "__main__":
+    main()

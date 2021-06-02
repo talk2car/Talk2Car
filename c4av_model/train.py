@@ -253,4 +253,5 @@ def evaluate(val_dataloader, img_encoder, text_encoder, args):
 
     return m_ap50.avg   
 
-main()
+if __name__ == "__main__":
+    main()
