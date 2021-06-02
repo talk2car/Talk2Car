@@ -16,7 +16,7 @@ class TextEncoder(torch.nn.Module):
         embedded = self.embedding(input_seq)
         
         # Pack padded batch of sequences for RNN module
-        packed = torch.nn.utils.rnn.pack_padded_sequence(embedded, input_lengths)
+        packed = torch.nn.utils.rnn.pack_padded_sequence(embedded, input_lengths.cpu())
         
         # Forward pass through GRU
         outputs, hidden = self.gru(packed, hidden)
@@ -27,7 +27,7 @@ class TextEncoder(torch.nn.Module):
         # Sum bidirectional GRU outputs
         outputs = outputs[:, :, :self.hidden_size] + outputs[:, :, self.hidden_size:]
         
-        # We will use the sum of the final hidden state of the backward and foward pass. 
+        # We will use the sum of the final hidden state of the backward and forward pass.
         hidden = torch.sum(hidden, dim = 0)
        
         return outputs, hidden
