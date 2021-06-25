@@ -4,6 +4,10 @@ This directory contains a code base to help researchers participate in the [C4AV
 
 The images are delivered as a single zip file, together with a json file that contains the necessary annotations and bounding box coordinates of region proposals extracted with CenterNet.
 
+## Notebook
+
+If you're interested in a google collab notebook with this baseline, you can find it here: https://colab.research.google.com/drive/19wTtGskfdhZWvNIfIrUcpwe9IChRKBtQ?usp=sharing
+
 ## Minified Dataset
 The images can be found [here](https://drive.google.com/open?id=1bhcdej7IFj5GqfvXGrHGPk2Knxe77pek). Unzip the images and copy them to the ./data folder. Notice that the ./data folder contains two separate json files. In one case, we list 64 possibly overlapping region proposals extracted by CenterNet. In the latter case, we removed duplicate proposals from the list.
 
