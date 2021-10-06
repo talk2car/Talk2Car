@@ -4,7 +4,7 @@ One can find the current Talk2Car leaderboard here. The models on Talk2Car are e
 This metric can be referred to by many ways i.e. IoU_{0.5}, AP50, ...
 Pull requests with new results and models are always welcome!
 
-<center>
+<div align="center">
 
 | Model  | AP50 / IoU_{0.5}  | Code |
 |:---:|:---:|:---:|
@@ -22,4 +22,4 @@ Pull requests with new results and models are always welcome!
 | [Stacked VLBert](https://link.springer.com/chapter/10.1007/978-3-030-66096-3_2) | 71.0 | |
 
 
-</center>
+</div>
