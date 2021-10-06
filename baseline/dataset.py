@@ -8,27 +8,28 @@ import torch.utils.data as data
 from PIL import Image
 from utils.vocabulary import Vocabulary
 from utils.math import jaccard
+from talktocar import get_talk2car_class
 
 class Talk2Car(data.Dataset):
-    def __init__(self, root, split, 
-                    vocabulary='./utils/vocabulary.txt', transform=None):
-        self.root = root
+    def __init__(self, baseline_data_root, split, talk2car_root, vocabulary='./utils/vocabulary.txt', transform=None):
+        self.baseline_data_root = baseline_data_root
         self.split = split
 
-        with open(os.path.join(self.root, 'talk2car_w_rpn_no_duplicates.json'), 'rb') as f:
+        with open(os.path.join(self.baseline_data_root, 'centernet_bboxes.json'), 'rb') as f:
             data = json.load(f)[self.split] 
             self.data = {int(k): v for k, v in data.items()} # Map to int
-        self.img_dir = os.path.join(self.root, 'images')
+        self.img_dir = os.path.join(self.baseline_data_root, 'images')
         self.transform = transform
-        self.vocabulary = Vocabulary(vocabulary) 
+        self.vocabulary = Vocabulary(vocabulary)
+        self.talk2car = get_talk2car_class(root=talk2car_root, split=split, slim=True)
 
-        if self.split in ['val','train']:
+        if self.split in ['val', 'train']:
             self.add_train_annos = True # Add extra info when reading out items for training
         else:
             self.add_train_annos = False
 
         self.ignore_index = 255 # Ignore index when all RPNs < 0.5 IoU
-        self.num_rpns_per_image = 16 # We only use 16 RPN per image
+        self.num_rpns_per_image = 32 # We only use 16 RPN per image
 
         # Filter out rpns we are not going to use
         # RPNS were obtained from center after soft NMS
@@ -48,7 +49,7 @@ class Talk2Car(data.Dataset):
         sample = self.data[idx]
         
         # Load image 
-        img_path =  os.path.join(self.img_dir, sample['img'])
+        img_path = os.path.join(self.img_dir, sample['img'])
         
         with open(img_path, 'rb') as f:
             img = Image.open(f).convert('RGB')
