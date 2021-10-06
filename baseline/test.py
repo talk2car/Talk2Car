@@ -1,21 +1,13 @@
-import os
 import argparse
 import json
-import shutil
-import sys
-import warnings
 
 import torch
-import torch.nn as nn
-import torch.nn.functional as F
 import torch.backends.cudnn as cudnn
-import torch.optim as optim
 import torch.utils.data as data
 import torchvision.transforms as transforms
 
 from dataset import Talk2Car
 from utils.collate import custom_collate
-from utils.util import AverageMeter, ProgressMeter, save_checkpoint
 
 import models.resnet as resnet
 import models.nlp_models as nlp_models
@@ -38,9 +30,15 @@ def main():
                                   std=[0.229, 0.224, 0.225])
     dataset = Talk2Car(root=args.root, split='test',
                                 transform=transforms.Compose([transforms.ToTensor(), normalize]))
+    dataset_val = Talk2Car(root=args.root, split='val',
+                                transform=transforms.Compose([transforms.ToTensor(), normalize]))
     dataloader = data.DataLoader(dataset, batch_size = args.batch_size, shuffle=True,
-                            num_workers=args.workers, collate_fn=custom_collate, pin_memory=True,                            drop_last=False)
+                            num_workers=args.workers, collate_fn=custom_collate, pin_memory=True, drop_last=False)
+    dataloader_val = data.DataLoader(dataset_val, batch_size = args.batch_size, shuffle=True,
+                            num_workers=args.workers, collate_fn=custom_collate, pin_memory=True, drop_last=False)
     print('Test set contains %d samples' %(len(dataset)))
+    print('Val set contains %d samples' % (len(dataset_val)))
+    print('Both sets contain %d samples' % (len(dataset_val)+len(dataset)))
 
     # Create model
     print("=> creating model")
@@ -57,47 +55,48 @@ def main():
     checkpoint = torch.load('best_model.pth.tar', map_location='cpu')
     img_encoder.load_state_dict(checkpoint['img_encoder'])
     text_encoder.load_state_dict(checkpoint['text_encoder'])
-    evaluate(dataloader, img_encoder, text_encoder, args)
+    evaluate(dataloader, dataloader_val, img_encoder, text_encoder, args)
 
 @torch.no_grad()
-def evaluate(val_dataloader, img_encoder, text_encoder, args):
+def evaluate(test_dataloader, val_dataloader, img_encoder, text_encoder, args):
     img_encoder.eval()
     text_encoder.eval()
     
-    ignore_index = val_dataloader.dataset.ignore_index
+    ignore_index = test_dataloader.dataset.ignore_index
     prediction_dict = {}       
- 
-    for i, batch in enumerate(val_dataloader):
-        
-        # Data
-        region_proposals = batch['rpn_image'].cuda(non_blocking=True)
-        command = batch['command'].cuda(non_blocking=True)
-        command_length = batch['command_length'].cuda(non_blocking=True)
-        b, r, c, h, w = region_proposals.size()
 
-        # Image features
-        img_features = img_encoder(region_proposals.view(b*r, c, h, w))
-        norm = img_features.norm(p=2, dim=1, keepdim=True)
-        img_features = img_features.div(norm)
-       
-        # Sentence features
-        _, sentence_features = text_encoder(command.permute(1,0), command_length)
-        norm = sentence_features.norm(p=2, dim=1, keepdim=True)
-        sentence_features = sentence_features.div(norm)
-     
-        # Product in latent space
-        scores = torch.bmm(img_features.view(b, r, -1), sentence_features.unsqueeze(2)).squeeze()
-        pred = torch.argmax(scores, 1)
-        
-        # Add predictions to dict
-        for i_, idx_ in enumerate(batch['index'].tolist()):
-            token = val_dataloader.dataset.convert_index_to_command_token(idx_)
-            bbox = batch['rpn_bbox_lbrt'][i_, pred[i_]].tolist()
-            bbox = [bbox[0], bbox[1], bbox[2]-bbox[0], bbox[3]-bbox[1]]
-            if token in prediction_dict.keys():
-                print('Token already exists')
-            prediction_dict[token] = bbox
-                    
+    for dataloader in [test_dataloader, val_dataloader]:
+
+        for i, batch in enumerate(dataloader):
+
+            # Data
+            region_proposals = batch['rpn_image'].cuda(non_blocking=True)
+            command = batch['command'].cuda(non_blocking=True)
+            command_length = batch['command_length'].cuda(non_blocking=True)
+            b, r, c, h, w = region_proposals.size()
+
+            # Image features
+            img_features = img_encoder(region_proposals.view(b*r, c, h, w))
+            norm = img_features.norm(p=2, dim=1, keepdim=True)
+            img_features = img_features.div(norm)
+
+            # Sentence features
+            _, sentence_features = text_encoder(command.permute(1,0), command_length)
+            norm = sentence_features.norm(p=2, dim=1, keepdim=True)
+            sentence_features = sentence_features.div(norm)
+
+            # Product in latent space
+            scores = torch.bmm(img_features.view(b, r, -1), sentence_features.unsqueeze(2)).squeeze()
+            pred = torch.argmax(scores, 1)
+
+            # Add predictions to dict
+            for i_, idx_ in enumerate(batch['index'].tolist()):
+                token = val_dataloader.dataset.convert_index_to_command_token(idx_)
+                bbox = batch['rpn_bbox_lbrt'][i_, pred[i_]].tolist()
+                bbox = [bbox[0], bbox[1], bbox[2]-bbox[0], bbox[3]-bbox[1]]
+                if token in prediction_dict.keys():
+                    print('Token already exists')
+                prediction_dict[token] = bbox
 
     print('Predictions for %d samples saved' %(len(prediction_dict)))
     with open('predictions.json', 'w') as f:

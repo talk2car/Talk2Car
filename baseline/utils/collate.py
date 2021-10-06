@@ -1,5 +1,4 @@
 import torch
-import numpy as np
 
 """ 
     Custom collate function.

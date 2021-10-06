@@ -1,10 +1,5 @@
 import os
 import argparse
-import json
-import shutil
-import sys
-import warnings
-
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
@@ -55,9 +50,9 @@ def main():
     print("=> creating dataset")
     normalize = transforms.Normalize(mean=[0.485, 0.456, 0.406],
                                   std=[0.229, 0.224, 0.225])
-    train_dataset = Talk2Car(root=args.root, split='train',
+    train_dataset = Talk2Car(talk2car_root=args.root, split='train',
                                 transform=transforms.Compose([transforms.ToTensor(), normalize]))
-    val_dataset = Talk2Car(root=args.root, split='val',
+    val_dataset = Talk2Car(talk2car_root=args.root, split='val',
                         transform=transforms.Compose([transforms.ToTensor(), normalize]))
 
     train_dataloader = data.DataLoader(train_dataset, batch_size = args.batch_size, shuffle=True,

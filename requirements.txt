@@ -4,3 +4,5 @@ numpy
 spacy==2.2.4
 pillow
 matplotlib
+opencv-python
+nuscenes-devkit

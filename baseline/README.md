@@ -32,12 +32,12 @@ gdown --id 1bhcdej7IFj5GqfvXGrHGPk2Knxe77pek
 
 # Unzip images to the correct directory
 echo "preparing the data..."
-unzip imgs.zip && mv imgs/ Talk2Car/c4av_model/data/images
+unzip imgs.zip && mv imgs/ Talk2Car/data/images
 rm imgs.zip
 
 # Install requirements
 echo "installing talk2car requirements..."
-cd Talk2Car/c4av_model && pip install -r requirements.txt
+cd Talk2Car && pip install -r requirements.txt
 
 echo "installing spacy's en_core_web_sm..."
 python -m spacy download en_core_web_sm
@@ -79,3 +79,30 @@ python -m spacy download en_core_web_sm
 
 Obtain a pretrained model [here](https://drive.google.com/open?id=1-FsTYjMxv7-Pw_eXHyDOGTgDlscRyA1j).
 
+## Citation
+
+If you use this model or the centernet boxes, please cite the following papers
+
+```
+@misc{vandenhende2020baseline,
+      title={A Baseline for the Commands For Autonomous Vehicles Challenge}, 
+      author={Simon Vandenhende and Thierry Deruyttere and Dusan Grujicic},
+      year={2020},
+      eprint={2004.13822},
+      archivePrefix={arXiv},
+      primaryClass={cs.CL}
+}
+```
+
+and 
+
+```
+@inproceedings{deruyttere2020commands,
+  title={Commands 4 autonomous vehicles (c4av) workshop summary},
+  author={Deruyttere, Thierry and Vandenhende, Simon and Grujicic, Dusan and Liu, Yu and Van Gool, Luc and Blaschko, Matthew and Tuytelaars, Tinne and Moens, Marie-Francine},
+  booktitle={European Conference on Computer Vision},
+  pages={3--26},
+  year={2020},
+  organization={Springer}
+}
+```

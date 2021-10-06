@@ -1,15 +1,9 @@
-from os import path as osp
-
-import cv2
 import json
 import os.path as osp
-import numpy as np
 from nuscenes.nuscenes import NuScenes
 from nuscenes.utils.data_classes import Box
-from nuscenes.utils.geometry_utils import view_points
 from pyquaternion import Quaternion
 from typing import List, Tuple, Dict
-import os
 
 class Command:
     def __init__(
@@ -21,6 +15,7 @@ class Command:
         command: str,
         command_token: str,
         referred_box_2d: list,
+        t2c_image_name: str,
         box_token: str = None,
         slim_dataset: bool = False,
     ):
@@ -32,12 +27,13 @@ class Command:
         self.scene_token = scene_token
         self.frame_token = frame_token
         self.box = box
-        self.text = command
+        self.command = command
         self.box_token = box_token
         self.command_token = command_token
         self.t2c = t2c
         self.slim_dataset = slim_dataset
         self.referred_box_2d = referred_box_2d
+        self.t2c_image_name = t2c_image_name
         if not slim_dataset:
             self.sd_rec = self.t2c.get("sample_data", self.frame_token)
             _, _, self.camera_intrinsic = self.t2c.get_sample_data(self.sd_rec["token"])
@@ -57,7 +53,7 @@ class Command:
             "scene_token": self.scene_token,
             "frame_token": self.frame_token,
             "box": self.box,
-            "text": self.text,
+            "text": self.command,
             "box_token": self.box_token,
         }
         return json.dumps(js)
@@ -108,6 +104,9 @@ class Command:
         return im_path
 
 class Talk2CarBase:
+    img_mean = [0.3950, 0.4004, 0.3906]
+    img_std = [0.2115, 0.2068, 0.2164]
+
     def __init__(self, split, commands_root, slim):
         self.version = split
         self.commands_root = commands_root
@@ -173,6 +172,7 @@ class Talk2CarBase:
                 command_text,
                 command_token,
                 referred_box_2d=c.get("2d_box", None),
+                t2c_image_name=c["t2c_img"],
                 box_token=c.get("box_token", None),
                 slim_dataset=self.slim
             )
@@ -202,13 +202,11 @@ class Talk2CarBase:
             )
 
 class Talk2Car(NuScenes, Talk2CarBase):
-    img_mean = [0.3950, 0.4004, 0.3906]
-    img_std = [0.2115, 0.2068, 0.2164]
 
     def __init__(
         self,
-        split: str = "train",
-        root: str = "../datasets/nuScenes/data/sets/nuscenes",
+        split,
+        root,
         commands_root = None,
         verbose: bool = False,
     ):
@@ -229,20 +227,18 @@ class Talk2Car(NuScenes, Talk2CarBase):
         self.scene_tokens = None
 
 class Talk2CarSlim(Talk2CarBase):
-    img_mean = [0.3950, 0.4004, 0.3906]
-    img_std = [0.2115, 0.2068, 0.2164]
 
     def __init__(
         self,
-        split: str = "train",
-        root: str = "../datasets/nuScenes/data/sets/nuscenes",
+        split,
+        root,
         commands_root = None,
         verbose: bool = False,
     ):
         """
         Loads database and creates reverse indexes and shortcuts.
         :param split: Version to load (e.g. "v1.0-trainval", ...).
-        :param root: Path to the tables and data.
+        :param root: Path to the talk2car jsons.
         :param commands_root: Path to the command data. If None, will use the path given to the root param.
         :param verbose: Whether to print status messages during load.
         """
@@ -261,4 +257,4 @@ def get_talk2car_class(root, split, command_path=None, slim=True, verbose=False)
 
 if __name__ == "__main__":
     ds = get_talk2car_class("./data", split="val")
-    print("ds")
+    print("#Commands for split {}: {}".format(ds.split, len(ds.commands)))

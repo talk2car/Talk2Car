@@ -69,9 +69,9 @@ class ExampleDataset(Dataset):
         # Command
         command = self.dataset.commands[index]
         descr = torch.Tensor(
-            self.vocabulary.sent2ix_andpad(command.text, add_eos_token=True)
+            self.vocabulary.sent2ix_andpad(command.command, add_eos_token=True)
         ).long()
-        length = len(self.vocabulary.sent2ix(command.text)) + 1
+        length = len(self.vocabulary.sent2ix(command.command)) + 1
 
         # Get paths
         sd_rec = self.dataset.get("sample_data", command.frame_token)
