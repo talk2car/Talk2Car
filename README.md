@@ -129,7 +129,7 @@ The code can be run as follows:
 Export the path where you put the nuScenes data and install the nuscenes-devkit through pip.
 
 ```
-export NUSCENES='NUSCENES_PATH'
+export NUSCENES='/path/to/downloaded/nuscenes'
 ```
 
 Copy the Talk2Car json files to a directory named 'commands' in the nuScenes dataset folder.
@@ -148,7 +148,7 @@ python3 ./example.py --root $NUSCENES
 ## <a name="evaluation"></a>Evaluation
 The object referral task on the Talk2Car dataset requires to predict a bounding box for every command.
 The models on Talk2Car are evaluated by checking if the Intersection over Union of the predicted object bounding box and the ground truth bounding box is above 0.5.
-This metric can be referred to by many ways i.e. IoU_{0.5}, AP50, ...
+This metric can be referred to by many ways i.e.  IoU<sub>0.5</sub>, AP50, ...
 
 If you want to try the evaluation locally on the validation set, you can do so by using `eval.py`.
 The script can be used as follows:
@@ -158,7 +158,7 @@ python eval.py --root $NUSCENES --version val --predictions ./data/predictions.j
 ```
 
 When replacing the `predictions.json` file by your own model predictions, you are required to follow the same format. 
-Specifically, the results need to be stored as a JSON file which contains a python dictionary of the following format {command_token: [x0, y0, w,h]}. Where x0 and y0 are the coordinates of the top left corner, and h, w the height and width of the predicted bounding box.  
+Specifically, the results need to be stored as a JSON file which contains a python dictionary of the following format {command_token: [x0, y0, w, h]}. Where x0 and y0 are the coordinates of the top left corner, and h, w the height and width of the predicted bounding box.  
 
 Evaluation of your models on the Talk2Car test set is possible [here](https://www.aicrowd.com/challenges/eccv-2020-commands-4-autonomous-vehicles).
 Please make sure that your `predictions.json` file contains the predictions for **both the test and validation set!**.
@@ -170,11 +170,14 @@ The Talk2Car leaderboard can be found [here](leaderboard.md).
 
 # <a name="c4av_challenge"></a>C4AV Challenge
 
-The Talk2Car dataset is part of the [Commands for Autonomous Vehicles](https://www.aicrowd.com/challenges/eccv-2020-commands-4-autonomous-vehicles) challenge. The challenge requires to solve a visual grounding task. The following sections introduce the dataset, some example images and an evaluation script. The format required to submit to the challenge is the same as the one used in the evaluation example. More details about the visual grounding task on Talk2Car are provided in the paper. Finally, we include a simple baseline as a python notebook to help people get acquainted with the task.  
+The Talk2Car dataset is part of the [Commands for Autonomous Vehicles](https://www.aicrowd.com/challenges/eccv-2020-commands-4-autonomous-vehicles) challenge.
+The challenge required to solve a visual grounding task.
+The summary paper of the challenge can be found [here](https://link.springer.com/chapter/10.1007/978-3-030-66096-3_1).
 
 ## C4AV Challenge - Quick Start
 
-To help participants get started in the C4AV challenge, we provide a [PyTorch code base](https://github.com/talk2car/Talk2Car/tree/master/baseline) that allows to train a baseline model on the Talk2Car dataset within minutes. Additionally, we include the images and commands as separate files which avoids the need to download the entire nuScenes dataset first. 
+To help participants get started in the C4AV challenge, we provide a [PyTorch code base](https://github.com/talk2car/Talk2Car/tree/master/baseline) that allows to train a baseline model on the Talk2Car dataset within minutes.
+Additionally, we include the images and commands as separate files which avoids the need to download the entire nuScenes dataset first. 
 
 ## <a name="extensions"></a>Extensions
 
