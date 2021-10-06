@@ -39,6 +39,7 @@ However, if one wishes to do so, they need to download 300GB+ of data from nuSce
 To make our dataset more accessible to researchers and self-driving car enthusiasts with limited hardware,
 we also provide a dataset class that can only load the Talk2Car data. For this, one only needs <2GB of storage.
 In the following section we first describe the requirements and then we describe how to set up both versions of the dataset.
+We also provide a google colab that can train our baseline model found [here](https://colab.research.google.com/drive/19wTtGskfdhZWvNIfIrUcpwe9IChRKBtQ?usp=sharing).
 
 ## <a name="requirements"></a> Requirements
 
