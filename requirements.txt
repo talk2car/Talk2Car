@@ -1,0 +1,6 @@
+torch==1.8.1
+torchvision==0.9.1
+numpy
+spacy==2.2.4
+pillow
+matplotlib

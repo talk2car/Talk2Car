@@ -1,12 +1,14 @@
 import json
 import argparse
 import numpy as np
-from talktocar import Talk2Car
+from talktocar import get_talk2car_class
 
 FLAGS = argparse.ArgumentParser()
 FLAGS.add_argument("--root", help="root")
+FLAGS.add_argument("--commands_root", help="commands_root", default=None)
 FLAGS.add_argument("--version", help="version")
 FLAGS.add_argument("--predictions", help="JSON file with predictions")
+FLAGS.add_argument("--tiny", action="store_true", default=False)
 
 
 def evaluate(ground_truth, predictions):
@@ -70,11 +72,12 @@ def main():
 
     # Ground truth
     print('Gather ground truth')
-    dataset = Talk2Car(version=args.version, dataroot=args.root, verbose=False)
+    dataset = get_talk2car_class(root=args.root, split=args.version, command_path=args.commands_root,
+                                 tiny=args.tiny, verbose=False)
     ground_truth = {}
     for i in range(len(dataset.commands)):
         command = dataset.commands[i]
-        bbox = list(map(int, command.get_2d_bbox()))  # x0, y0, h, w
+        bbox = list(map(int, command.get_2d_bbox()))  # x0, y0, w, h
         cmd_hash = command.get_command_token() # string
         ground_truth[cmd_hash] = bbox
     
