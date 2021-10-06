@@ -4,7 +4,7 @@ Project financed by Internal Funds KU Leuven (C14/18/065). Talk2Car is part of t
 
 # Overview
 
----
+
 - [Changelog](#changelog)
 - [Talk2Car](#talk2car_overview)
   - [Requirements](#requirements)
@@ -18,14 +18,14 @@ Project financed by Internal Funds KU Leuven (C14/18/065). Talk2Car is part of t
 
 # <a name="changelog"></a>Changelog
 
----
+
 - 5th October, 2021: Making the Talk2Car class able to also load the nuScenes dataset or only loading the Talk2Car (Slim dataset version).
 - 2th June, 2021: Update code base to pytorch 1.8.1
 - 18th March, 2020: First release of Talk2Car.
 
 # <a name="talk2car_overview"></a>Talk2Car
 
----
+
 
 The Talk2Car dataset is built upon the [nuScenes](https://www.nuscenes.org/) dataset. 
 Hence, one can use all data provided by nuScenes when using Talk2Car (i.e. LIDAR, RADAR, Video, ...).
@@ -151,7 +151,7 @@ The Talk2Car leaderboard can be found [here](leaderboard.md).
 
 # <a name="c4av_challenge"></a>C4AV Challenge
 
----
+
 The Talk2Car dataset is part of the [Commands for Autonomous Vehicles](https://www.aicrowd.com/challenges/eccv-2020-commands-4-autonomous-vehicles) challenge. The challenge requires to solve a visual grounding task. The following sections introduce the dataset, some example images and an evaluation script. The format required to submit to the challenge is the same as the one used in the evaluation example. More details about the visual grounding task on Talk2Car are provided in the paper. Finally, we include a simple baseline as a python notebook to help people get acquainted with the task.  
 
 ## C4AV Challenge - Quick Start
@@ -186,7 +186,7 @@ Specifically, the results need to be stored as a JSON file which contains a pyth
 
 # <a name="citation"></a>Citation
 
----
+
 If you use this work for your own research, please cite:
 ```
 @inproceedings{deruyttere2019talk2car,
@@ -200,7 +200,7 @@ If you use this work for your own research, please cite:
 
 # <a name="license"></a>License 
 
----
+
 This software is released under an MIT license. For a commercial license please contact the authors.
 
 
