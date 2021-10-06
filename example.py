@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 from torch.utils.data import Dataset
 from vocabulary import Vocabulary
-from talktocar import Talk2Car
+from talktocar import get_talk2car_class
 
 FLAGS = argparse.ArgumentParser()
 FLAGS.add_argument("--root", help="Dataset root")
@@ -26,11 +26,11 @@ vocabulary = Vocabulary("t2c_voc.txt")
 
 # An example dataset implementation
 class ExampleDataset(Dataset):
-    def __init__(self, root, vocabulary, version="train"):
+    def __init__(self, root, vocabulary, command_path=None, version="train", slim_t2c=True):
         # Initialize
         self.version = version
         self.vocabulary = vocabulary
-        self.dataset = Talk2Car(version=self.version, dataroot=root)
+        self.dataset = get_talk2car_class(root, split=self.version, slim=slim_t2c, command_path=command_path)
 
         # Fixed params
         self.num_classes = 23
@@ -69,9 +69,9 @@ class ExampleDataset(Dataset):
         # Command
         command = self.dataset.commands[index]
         descr = torch.Tensor(
-            self.vocabulary.sent2ix_andpad(command.text, add_eos_token=True)
+            self.vocabulary.sent2ix_andpad(command.command, add_eos_token=True)
         ).long()
-        length = len(self.vocabulary.sent2ix(command.text)) + 1
+        length = len(self.vocabulary.sent2ix(command.command)) + 1
 
         # Get paths
         sd_rec = self.dataset.get("sample_data", command.frame_token)

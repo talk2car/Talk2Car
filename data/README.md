@@ -20,7 +20,9 @@ The data is split into a train, val and test set. The splits are stored as pytho
     'command': 'turn left to pick up the pedestrian at the corner', # Command
     'obj_name': 'human.pedestrian.adult', # Class name of the reffered object 
     'box_token': '0183ed8a474f411f8a3394eb78df7838' # nuScenes box token,
-    'command_token': '4175173f5f60d19ecfc3712e960a1103' # A unique command identifier
+    'command_token': '4175173f5f60d19ecfc3712e960a1103' # A unique command identifier,
+    '2d_box': [200, 300, 50, 50] # The 2d bounding box of the referred object in the frontal view. Follows the format [x,y,w,h]
+    '':
 }
 ```
 
