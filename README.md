@@ -18,6 +18,7 @@ An example image from Talk2Car given below for the following command: "You can p
   - [Evaluation](#evaluation)  
   - [Talk2Car Leaderboard](#leaderboard)
 - [C4AV Challenge](#c4av_challenge)
+  - [C4AV Challenge Quick Start](#c4av_challenge_quick_start)
 - [Extensions](#extensions)
 - [Citation](#citation)
 - [License](#license)
@@ -25,14 +26,12 @@ An example image from Talk2Car given below for the following command: "You can p
 
 # <a name="changelog"></a>Changelog
 
-
+- 6th October, 2021: Release of Talk2Car v1.1
 - 5th October, 2021: Making the Talk2Car class able to also load the nuScenes dataset or only loading the Talk2Car (Slim dataset version).
 - 2th June, 2021: Update code base to pytorch 1.8.1
 - 18th March, 2020: First release of Talk2Car.
 
 # <a name="talk2car_overview"></a>Talk2Car
-
-
 
 The Talk2Car dataset is built upon the [nuScenes](https://www.nuscenes.org/) dataset. 
 Hence, one can use all data provided by nuScenes when using Talk2Car (i.e. LIDAR, RADAR, Video, ...).
@@ -161,7 +160,6 @@ When replacing the `predictions.json` file by your own model predictions, you ar
 Specifically, the results need to be stored as a JSON file which contains a python dictionary of the following format {command_token: [x0, y0, w, h]}. Where x0 and y0 are the coordinates of the top left corner, and h, w the height and width of the predicted bounding box.  
 
 Evaluation of your models on the Talk2Car test set is possible [here](https://www.aicrowd.com/challenges/eccv-2020-commands-4-autonomous-vehicles).
-Please make sure that your `predictions.json` file contains the predictions for **both the test and validation set!**.
 An example of this can be seen in the `baseline/test.py`.
 
 ## <a name="leaderboard"></a>Leaderboard
@@ -174,12 +172,12 @@ The Talk2Car dataset is part of the [Commands for Autonomous Vehicles](https://w
 The challenge required to solve a visual grounding task.
 The summary paper of the challenge can be found [here](https://link.springer.com/chapter/10.1007/978-3-030-66096-3_1).
 
-## C4AV Challenge - Quick Start
+## <a name="c4av_challenge_quick_start"></a>C4AV Challenge - Quick Start
 
 To help participants get started in the C4AV challenge, we provide a [PyTorch code base](https://github.com/talk2car/Talk2Car/tree/master/baseline) that allows to train a baseline model on the Talk2Car dataset within minutes.
 Additionally, we include the images and commands as separate files which avoids the need to download the entire nuScenes dataset first. 
 
-## <a name="extensions"></a>Extensions
+# <a name="extensions"></a>Extensions
 
 **Coming soon...**
 

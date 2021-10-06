@@ -256,5 +256,5 @@ def get_talk2car_class(root, split, command_path=None, slim=True, verbose=False)
         return Talk2Car(root=root, split=split, verbose=verbose, commands_root=command_path)
 
 if __name__ == "__main__":
-    ds = get_talk2car_class("./data", split="val")
+    ds = get_talk2car_class("./data", split="test")
     print("#Commands for split {}: {}".format(ds.split, len(ds.commands)))

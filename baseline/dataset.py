@@ -114,7 +114,7 @@ class Talk2Car(data.Dataset):
         return self.vocabulary.number_of_words
 
     def convert_index_to_command_token(self, index):
-        return self.data[index].command_token
+        return self.talk2car.commands[index].command_token
 
     def convert_command_to_text(self, command):
         # Takes value from command key and transforms it into human readable text
