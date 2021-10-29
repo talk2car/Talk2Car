@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 from torch.utils.data import Dataset
 from vocabulary import Vocabulary
-from talktocar import get_talk2car_class
+from talk2car import get_talk2car_class
 
 FLAGS = argparse.ArgumentParser()
 FLAGS.add_argument("--root", help="Dataset root")

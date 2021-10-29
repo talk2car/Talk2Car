@@ -219,8 +219,8 @@ class Talk2Car(NuScenes, Talk2CarBase):
         """
         commands_root = commands_root if commands_root else root
 
-        NuScenes.__init__(version="v1.0-trainval", dataroot=root, verbose=verbose)
-        Talk2CarBase.__init__(split=split, commands_root=commands_root, slim=False)
+        NuScenes.__init__(version="v1.0-trainval", dataroot=root, verbose=verbose, self=self)
+        Talk2CarBase.__init__(split=split, commands_root=commands_root, slim=False, self=self)
         # print("Did you update the commands.json in the nuscenes folder with the new version?")
         # print("If so, continue.")
         # Load commands
@@ -255,6 +255,9 @@ def get_talk2car_class(root, split, command_path=None, slim=True, verbose=False)
     else:
         return Talk2Car(root=root, split=split, verbose=verbose, commands_root=command_path)
 
-if __name__ == "__main__":
+def main():
     ds = get_talk2car_class("./data", split="test")
     print("#Commands for split {}: {}".format(ds.split, len(ds.commands)))
+
+if __name__ == "__main__":
+    main()
