@@ -10,7 +10,7 @@ from utils.vocabulary import Vocabulary
 from utils.math import jaccard
 import sys
 sys.path.append("../")
-from talktocar import get_talk2car_class
+from talk2car import get_talk2car_class
 
 class Talk2Car(data.Dataset):
     def __init__(self, talk2car_root, split,
