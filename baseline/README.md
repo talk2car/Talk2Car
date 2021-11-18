@@ -43,7 +43,7 @@ echo "installing spacy's en_core_web_sm..."
 python -m spacy download en_core_web_sm
 
 echo "start training..."
-python3 train.py --root ./data --lr 0.01 --nesterov --evaluate
+python3 train.py --root ../data --lr 0.01 --nesterov --evaluate
 ```
 
 in a shell script i.e. 'setup_and_run.sh' in a new directory where you want to download everything.
@@ -55,7 +55,7 @@ The images can be found [here](https://drive.google.com/open?id=1bhcdej7IFj5Gqfv
 You can run the code as follows.
 
 ```
-python3 train.py --root ./data --lr 0.01 --nesterov --evaluate 
+python3 train.py --root ../data --lr 0.01 --nesterov --evaluate 
 ```
 
 The published code can be used to train a model that obtains +- 42% AP50 on the validation set. The training can be done on a single 1080ti GPU in just a few hours.
@@ -64,7 +64,7 @@ The published code can be used to train a model that obtains +- 42% AP50 on the 
 A submission file can be created by running the test.py script. This will create a predictions.json file that can be uploaded to the our test server on [AICrowd](https://www.aicrowd.com/challenges/eccv-2020-commands-4-autonomous-vehicles). The predictions.json file that is delivered with the repository contains the predictions of the pre-trained model. 
 
 ```
-python3 test.py --root ./data
+python3 test.py --root ../data
 ```
  
 ## Requirements
