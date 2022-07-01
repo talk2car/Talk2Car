@@ -180,7 +180,7 @@ Additionally, we include the images and commands as separate files which avoids 
 
 # <a name="extensions"></a>Extensions
 
-**Coming soon...**
+- [Talk2Car-Expr](https://github.com/ThierryDeruyttere/Talk2Car-Expr)
 
 # <a name="citation"></a>Citation
 
