@@ -26,6 +26,7 @@ An example image from Talk2Car given below for the following command: "You can p
 
 # <a name="changelog"></a>Changelog
 
+- 29th October, 2021: Added visualization script in utils to create videos up to and including the prediction of the referred object.
 - 6th October, 2021: Release of Talk2Car v1.1
 - 5th October, 2021: Making the Talk2Car class able to also load the nuScenes dataset or only loading the Talk2Car (Slim dataset version).
 - 2th June, 2021: Update code base to pytorch 1.8.1
@@ -180,7 +181,7 @@ Additionally, we include the images and commands as separate files which avoids 
 
 # <a name="extensions"></a>Extensions
 
-**Coming soon...**
+- Talk2Car-Expr - [Paper](https://www.sciencedirect.com/science/article/pii/S0952197621001044) - [Dataset](https://github.com/ThierryDeruyttere/Talk2Car-Expr)
 
 # <a name="citation"></a>Citation
 

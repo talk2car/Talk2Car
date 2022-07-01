@@ -105,7 +105,7 @@ def main():
         print('Start epoch %d/%d' %(epoch, args.epochs))
         print(20*'-')
 
-        # Train 
+        # Train
         train(train_dataloader, img_encoder, text_encoder, optimizer, criterion, epoch, args)
         
         # Update lr rate
@@ -218,6 +218,11 @@ def evaluate(val_dataloader, img_encoder, text_encoder, args):
         region_proposals = batch['rpn_image'].cuda(non_blocking=True)
         command = batch['command'].cuda(non_blocking=True)
         command_length = batch['command_length'].cuda(non_blocking=True)
+        if len(batch["index"].shape) == 0:
+            region_proposals = region_proposals.unsqueeze(0)
+            command = command.unsqueeze(0)
+            command_length = command_length.unsqueeze(0)
+
         b, r, c, h, w = region_proposals.size()
 
         # Image features
@@ -232,6 +237,9 @@ def evaluate(val_dataloader, img_encoder, text_encoder, args):
      
         # Product in latent space
         scores = torch.bmm(img_features.view(b, r, -1), sentence_features.unsqueeze(2)).squeeze()
+
+        if len(batch["index"].shape) == 0:
+            scores = scores.unsqueeze(0)
 
         # Summary
         pred = torch.argmax(scores, 1)

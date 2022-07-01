@@ -1,3 +1,8 @@
+"""
+Script to visualize referred object predictions in a video.
+The created videos are from the first frame of the scene until the referred object prediction is made.
+"""
+
 from talk2car import get_talk2car_class
 import argparse
 import json
