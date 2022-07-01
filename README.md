@@ -180,7 +180,7 @@ Additionally, we include the images and commands as separate files which avoids 
 
 # <a name="extensions"></a>Extensions
 
-- [Talk2Car-Expr](https://github.com/ThierryDeruyttere/Talk2Car-Expr)
+- Talk2Car-Expr - [Paper](https://www.sciencedirect.com/science/article/pii/S0952197621001044) - [Dataset](https://github.com/ThierryDeruyttere/Talk2Car-Expr)
 
 # <a name="citation"></a>Citation
 
