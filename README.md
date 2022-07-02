@@ -26,6 +26,7 @@ An example image from Talk2Car given below for the following command: "You can p
 
 # <a name="changelog"></a>Changelog
 
+- 1st July, 2022: Added Talk2Car-Expr dataset in the extensions section.
 - 29th October, 2021: Added visualization script in utils to create videos up to and including the prediction of the referred object.
 - 6th October, 2021: Release of Talk2Car v1.1
 - 5th October, 2021: Making the Talk2Car class able to also load the nuScenes dataset or only loading the Talk2Car (Slim dataset version).
