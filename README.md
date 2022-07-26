@@ -26,6 +26,8 @@ An example image from Talk2Car given below for the following command: "You can p
 
 # <a name="changelog"></a>Changelog
 
+- 3rd July, 2022: Added Talk2Car-Destination dataset in the extensions section.
+- 1st July, 2022: Added Talk2Car-Expr dataset in the extensions section.
 - 29th October, 2021: Added visualization script in utils to create videos up to and including the prediction of the referred object.
 - 6th October, 2021: Release of Talk2Car v1.1
 - 5th October, 2021: Making the Talk2Car class able to also load the nuScenes dataset or only loading the Talk2Car (Slim dataset version).
@@ -40,6 +42,7 @@ However, if one wishes to do so, they need to download 300GB+ of data from nuSce
 To make our dataset more accessible to researchers and self-driving car enthusiasts with limited hardware,
 we also provide a dataset class that can only load the Talk2Car data. For this, one only needs <2GB of storage.
 In the following section we first describe the requirements and then we describe how to set up both versions of the dataset.
+We also provide a google colab that can train our baseline model found [here](https://colab.research.google.com/drive/19wTtGskfdhZWvNIfIrUcpwe9IChRKBtQ?usp=sharing).
 
 ## <a name="requirements"></a> Requirements
 
@@ -181,6 +184,7 @@ Additionally, we include the images and commands as separate files which avoids 
 # <a name="extensions"></a>Extensions
 
 - Talk2Car-Expr - [Paper](https://www.sciencedirect.com/science/article/pii/S0952197621001044) - [Dataset](https://github.com/ThierryDeruyttere/Talk2Car-Expr)
+- Talk2Car-Destination [Paper](https://www.aaai.org/AAAI22Papers/AAAI-8858.GrujicicD.pdf) - [Dataset](https://github.com/ThierryDeruyttere/Talk2Car-Destination)
 
 # <a name="citation"></a>Citation
 

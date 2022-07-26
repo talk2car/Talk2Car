@@ -13,11 +13,13 @@ sys.path.append("../")
 from talk2car import get_talk2car_class
 
 class Talk2Car(data.Dataset):
-    def __init__(self, talk2car_root, split, vocabulary='./utils/vocabulary.txt', transform=None):
+    def __init__(self, talk2car_root, split,
+                 bbox_file='./data/centernet_bboxes.json',
+                 vocabulary='./utils/vocabulary.txt', transform=None):
         self.split = split
         self.data_root = talk2car_root
 
-        with open('./data/centernet_bboxes.json', 'rb') as f:
+        with open(bbox_file, 'rb') as f:
             self.data = json.load(f)[self.split]
             #self.data = {int(k): v for k, v in data.items()} # Map to int
 
