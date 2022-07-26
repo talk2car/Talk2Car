@@ -22,6 +22,7 @@ class Command:
         location: str = None,
         action: str = None,
         referring_expression: str = None,
+        destination_data: dict = None,
     ):
         """
         :param frame_token:
@@ -42,6 +43,7 @@ class Command:
         self.location = location
         self.action = action
         self.referring_expression = referring_expression
+        self.destination_data = destination_data
         if not slim_dataset:
             self.sd_rec = self.t2c.get("sample_data", self.frame_token)
             _, _, self.camera_intrinsic = self.t2c.get_sample_data(self.sd_rec["token"])
@@ -112,11 +114,28 @@ class Command:
         im_path, _, _ = self.t2c.get_sample_data(sd_rec["token"])
         return im_path
 
+
+class Destination:
+
+    def __init__(self, destinations, egobbox_top=None,
+                 all_detections_top=None, detected_object_classes=None,
+                 all_detections_front=None, predicted_referred_obj_index=None,
+                 detection_scores=None, gt_referred_obj_top=None, **kwargs):
+
+        self.destinations = destinations
+        self.egobbox_top = egobbox_top
+        self.all_detections_top = all_detections_top
+        self.detected_object_classes = detected_object_classes
+        self.all_detections_front = all_detections_front
+        self.predicted_referred_obj_index = predicted_referred_obj_index
+        self.detection_scores = detection_scores
+        self.gt_referred_obj_top = gt_referred_obj_top
+
 class Talk2CarBase:
     img_mean = [0.3950, 0.4004, 0.3906]
     img_std = [0.2115, 0.2068, 0.2164]
 
-    def __init__(self, split, commands_root, slim, load_talk2car_expr=False):
+    def __init__(self, split, commands_root, slim, load_talk2car_expr=False, load_talk2car_destination=False):
         self.version = split
         self.commands_root = commands_root
         self.commands = []
@@ -124,9 +143,13 @@ class Talk2CarBase:
         self.max_command_length = 0
         self.slim = slim
         self.load_talk2car_expr = load_talk2car_expr
+        self.load_talk2car_destination = load_talk2car_destination
 
         if load_talk2car_expr:
             self.attr_data = self.load_talk2car_expr_data()
+
+        if load_talk2car_destination:
+            self.destination_data = self.load_talk2car_destination_data()
 
         (
             self.commands,
@@ -189,13 +212,19 @@ class Talk2CarBase:
                 box_token=c.get("box_token", None),
                 slim_dataset=self.slim
             )
-            if self.load_talk2car_expr:
+            if self.load_talk2car_expr and self.version != "test":
                 attr_data = self.attr_data[command_token]
                 cmd.referring_expression = attr_data["description"]
                 cmd.action = attr_data["action"]
                 cmd.location = attr_data["location"]
                 cmd.color = attr_data["color"]
-
+            
+            if self.load_talk2car_destination and self.version != "test":
+                if command_token in self.destination_data:
+                    cmd.destination = Destination(**self.destination_data[command_token])
+                else:
+                    cmd.destination = None
+                
             ret.append(cmd)
 
             if len(command_text) > max_length:
@@ -230,6 +259,16 @@ class Talk2CarBase:
         ) as f:
             return json.load(f)
 
+    def load_talk2car_destination_data(self):
+        with open(
+                "/Users/thierryderuyttere/Documents/Talk2Car-Destination/data/talk2car_destination_val.json", "r"
+                #osp.join(
+                #    osp.join(self.commands_root, "commands"),
+                #    "talk2car_destination_{}.json".format(self.version),
+                #)
+        ) as f:
+            return json.load(f)
+
 
 class Talk2Car(NuScenes, Talk2CarBase):
 
@@ -240,6 +279,7 @@ class Talk2Car(NuScenes, Talk2CarBase):
         commands_root = None,
         verbose: bool = False,
         load_talk2car_expr: bool = False,
+        load_talk2car_destination: bool = False,
     ):
         """
         Loads database and creates reverse indexes and shortcuts.
@@ -251,7 +291,9 @@ class Talk2Car(NuScenes, Talk2CarBase):
         commands_root = commands_root if commands_root else root
 
         NuScenes.__init__(version="v1.0-trainval", dataroot=root, verbose=verbose, self=self)
-        Talk2CarBase.__init__(split=split, commands_root=commands_root, slim=False, self=self, load_talk2car_expr=load_talk2car_expr)
+        Talk2CarBase.__init__(split=split, commands_root=commands_root, slim=False,
+                              self=self, load_talk2car_expr=load_talk2car_expr,
+                              load_talk2car_destination=load_talk2car_destination)
         # print("Did you update the commands.json in the nuscenes folder with the new version?")
         # print("If so, continue.")
         # Load commands
@@ -266,6 +308,7 @@ class Talk2CarSlim(Talk2CarBase):
         commands_root = None,
         verbose: bool = False,
         load_talk2car_expr: bool = False,
+        load_talk2car_destination: bool = False,
     ):
         """
         Loads database and creates reverse indexes and shortcuts.
@@ -275,22 +318,25 @@ class Talk2CarSlim(Talk2CarBase):
         :param verbose: Whether to print status messages during load.
         """
         commands_root = commands_root if commands_root else root
-        super().__init__(split=split, commands_root=commands_root, slim=True, load_talk2car_expr=load_talk2car_expr)
+        super().__init__(split=split, commands_root=commands_root, slim=True,
+                         load_talk2car_expr=load_talk2car_expr, load_talk2car_destination=load_talk2car_destination)
         # print("Did you update the commands.json in the nuscenes folder with the new version?")
         # print("If so, continue.")
         # Load commands
         self.scene_tokens = None
 
-def get_talk2car_class(root, split, command_path=None, slim=True, verbose=False, load_talk2car_expr=False):
+def get_talk2car_class(root, split, command_path=None, slim=True, verbose=False, load_talk2car_expr=False, load_talk2car_destination=False):
     if slim:
         return Talk2CarSlim(root=root, split=split, verbose=verbose,
-                            commands_root=command_path, load_talk2car_expr=load_talk2car_expr)
+                            commands_root=command_path, load_talk2car_expr=load_talk2car_expr,
+                            load_talk2car_destination=load_talk2car_destination)
     else:
         return Talk2Car(root=root, split=split, verbose=verbose,
-                        commands_root=command_path, load_talk2car_expr=load_talk2car_expr)
+                        commands_root=command_path, load_talk2car_expr=load_talk2car_expr,
+                        load_talk2car_destination=load_talk2car_destination)
 
 def main():
-    ds = get_talk2car_class("./data", split="val")
+    ds = get_talk2car_class("./data", split="val", load_talk2car_destination=True)
     print("#Commands for split {}: {}".format(ds.split, len(ds.commands)))
 
 if __name__ == "__main__":
