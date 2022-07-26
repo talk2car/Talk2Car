@@ -261,11 +261,10 @@ class Talk2CarBase:
 
     def load_talk2car_destination_data(self):
         with open(
-                "/Users/thierryderuyttere/Documents/Talk2Car-Destination/data/talk2car_destination_val.json", "r"
-                #osp.join(
-                #    osp.join(self.commands_root, "commands"),
-                #    "talk2car_destination_{}.json".format(self.version),
-                #)
+                osp.join(
+                    osp.join(self.commands_root, "commands"),
+                    "talk2car_destination_{}.json".format(self.version),
+                )
         ) as f:
             return json.load(f)
 
