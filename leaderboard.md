@@ -11,6 +11,7 @@ Pull requests with new results and models are always welcome!
 | [STACK-NMN](https://arxiv.org/pdf/1807.08556.pdf)  | 33.71  | |
 | [SCRC](https://arxiv.org/abs/1511.04164)  | 38.7  | |
 | [OSM](https://arxiv.org/pdf/1406.5679.pdf)  | 35.31  | | 
+| [Bi-Directional retr.](https://arxiv.org/abs/2004.13822)  | 44.1  | | 
 | [MAC](https://arxiv.org/abs/1803.03067)  |  50.51 | | 
 | [MSRR](https://arxiv.org/abs/2003.08717) | 60.04 | |
 | [VL-Bert (Base)](https://arxiv.org/abs/1908.08530)| 63.1 | [Code](https://github.com/ThierryDeruyttere/VL-BERT-Talk2Car) |
