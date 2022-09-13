@@ -26,6 +26,7 @@ An example image from Talk2Car given below for the following command: "You can p
 
 # <a name="changelog"></a>Changelog
 
+- 13th September, 2022: Added Talk2Car-RegSeg dataset in extensions section.
 - 26th July, 2022: Added Talk2Car-Destination support in Talk2Car.
 - 3rd July, 2022: Added Talk2Car-Destination dataset in the extensions section.
 - 1st July, 2022: Added Talk2Car-Expr dataset in the extensions section.
