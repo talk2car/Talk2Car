@@ -186,6 +186,7 @@ Additionally, we include the images and commands as separate files which avoids 
 
 - Talk2Car-Expr - [Paper](https://www.sciencedirect.com/science/article/pii/S0952197621001044) - [Dataset](https://github.com/ThierryDeruyttere/Talk2Car-Expr)
 - Talk2Car-Destination [Paper](https://www.aaai.org/AAAI22Papers/AAAI-8858.GrujicicD.pdf) - [Dataset](https://github.com/ThierryDeruyttere/Talk2Car-Destination)
+- Talk2Car-RegSeg [Paper](https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=9636172) - [Dataset](https://rnr-t2c.github.io/)
 
 # <a name="citation"></a>Citation
 
