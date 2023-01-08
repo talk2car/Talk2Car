@@ -131,11 +131,17 @@ class Destination:
         self.detection_scores = detection_scores
         self.gt_referred_obj_top = gt_referred_obj_top
 
+class Trajectory(Destination):
+    def __init__(self, trajectories, **kwargs):
+        self.trajectories = trajectories
+        super().__init__(**kwargs)
+
 class Talk2CarBase:
     img_mean = [0.3950, 0.4004, 0.3906]
     img_std = [0.2115, 0.2068, 0.2164]
 
-    def __init__(self, split, commands_root, slim, load_talk2car_expr=False, load_talk2car_destination=False):
+    def __init__(self, split, commands_root, slim, load_talk2car_expr=False, load_talk2car_destination=False,
+                 load_talk2car_trajectory=False):
         self.version = split
         self.commands_root = commands_root
         self.commands = []
@@ -143,13 +149,20 @@ class Talk2CarBase:
         self.max_command_length = 0
         self.slim = slim
         self.load_talk2car_expr = load_talk2car_expr
-        self.load_talk2car_destination = load_talk2car_destination
+        if load_talk2car_destination and load_talk2car_trajectory:
+            print("[WARNING] Talk2CarBase: load_talk2car_destination and load_talk2car_trajectory are both True. "
+                  "Setting load_talk2car_destination to False.")
+        self.load_talk2car_destination = load_talk2car_destination if not load_talk2car_trajectory else False
+        self.load_talk2car_trajectory = load_talk2car_trajectory
 
         if load_talk2car_expr:
             self.attr_data = self.load_talk2car_expr_data()
 
-        if load_talk2car_destination:
+        if self.load_talk2car_destination:
             self.destination_data = self.load_talk2car_destination_data()
+
+        if self.load_talk2car_trajectory:
+            self.trajectory_data = self.load_talk2car_trajectory_data()
 
         (
             self.commands,
@@ -224,6 +237,12 @@ class Talk2CarBase:
                     cmd.destination = Destination(**self.destination_data[command_token])
                 else:
                     cmd.destination = None
+
+            if self.load_talk2car_trajectory and self.version != "test":
+                if command_token in self.trajectory_data:
+                    cmd.trajectory = Trajectory(**self.trajectory_data[command_token])
+                else:
+                    cmd.trajectory = None
                 
             ret.append(cmd)
 
@@ -268,6 +287,14 @@ class Talk2CarBase:
         ) as f:
             return json.load(f)
 
+    def load_talk2car_trajectory_data(self):
+        with open(
+                osp.join(
+                    osp.join(self.commands_root, "commands"),
+                    "talk2car_trajectory_{}.json".format(self.version),
+                )
+        ) as f:
+            return json.load(f)
 
 class Talk2Car(NuScenes, Talk2CarBase):
 
@@ -279,6 +306,7 @@ class Talk2Car(NuScenes, Talk2CarBase):
         verbose: bool = False,
         load_talk2car_expr: bool = False,
         load_talk2car_destination: bool = False,
+        load_talk2car_trajectory: bool = False,
     ):
         """
         Loads database and creates reverse indexes and shortcuts.
@@ -292,7 +320,8 @@ class Talk2Car(NuScenes, Talk2CarBase):
         NuScenes.__init__(version="v1.0-trainval", dataroot=root, verbose=verbose, self=self)
         Talk2CarBase.__init__(split=split, commands_root=commands_root, slim=False,
                               self=self, load_talk2car_expr=load_talk2car_expr,
-                              load_talk2car_destination=load_talk2car_destination)
+                              load_talk2car_destination=load_talk2car_destination,
+                              load_talk2car_trajectory=load_talk2car_trajectory)
         # print("Did you update the commands.json in the nuscenes folder with the new version?")
         # print("If so, continue.")
         # Load commands
@@ -308,6 +337,7 @@ class Talk2CarSlim(Talk2CarBase):
         verbose: bool = False,
         load_talk2car_expr: bool = False,
         load_talk2car_destination: bool = False,
+        load_talk2car_trajectory: bool = False,
     ):
         """
         Loads database and creates reverse indexes and shortcuts.
@@ -318,25 +348,45 @@ class Talk2CarSlim(Talk2CarBase):
         """
         commands_root = commands_root if commands_root else root
         super().__init__(split=split, commands_root=commands_root, slim=True,
-                         load_talk2car_expr=load_talk2car_expr, load_talk2car_destination=load_talk2car_destination)
+                         load_talk2car_expr=load_talk2car_expr, load_talk2car_destination=load_talk2car_destination,
+                         load_talk2car_trajectory=load_talk2car_trajectory)
         # print("Did you update the commands.json in the nuscenes folder with the new version?")
         # print("If so, continue.")
         # Load commands
         self.scene_tokens = None
 
-def get_talk2car_class(root, split, command_path=None, slim=True, verbose=False, load_talk2car_expr=False, load_talk2car_destination=False):
+def get_talk2car_class(root, split, command_path=None, slim=True, verbose=False,
+                       load_talk2car_expr=False, load_talk2car_destination=False, load_talk2car_trajectory=False):
+    """
+    Helper function to retrieve a slimmed down version of the Talk2Car dataset (recommended) or the full version including all nuScenes data.
+    The latter one takes more time to load.
+
+    :param root: Path to the data.
+    :param split: Version to load (e.g. "train", ...).
+    :param command_path: Path to the command data. If None, will use the path given to the root param.
+    :param slim: Whether to load the slim version of the dataset.
+    :param verbose: Whether to print status messages during load.
+    :param load_talk2car_expr: Whether to load the Talk2Car expression data.
+    :param load_talk2car_destination: Whether to load the Talk2Car destination data.
+    :param load_talk2car_trajectory: Whether to load the Talk2Car trajectory data.
+        Note: the Talk2Car-Trajectory dataset also contains the Talk2Car-Destination dataset so you do not have to set
+        load_talk2car_destination to True if you set load_talk2car_trajectory to True.
+
+    :return: The Talk2Car dataset.
+    """
+
     if slim:
         return Talk2CarSlim(root=root, split=split, verbose=verbose,
                             commands_root=command_path, load_talk2car_expr=load_talk2car_expr,
-                            load_talk2car_destination=load_talk2car_destination)
+                            load_talk2car_destination=load_talk2car_destination, load_talk2car_trajectory=load_talk2car_trajectory)
     else:
         return Talk2Car(root=root, split=split, verbose=verbose,
                         commands_root=command_path, load_talk2car_expr=load_talk2car_expr,
-                        load_talk2car_destination=load_talk2car_destination)
+                        load_talk2car_destination=load_talk2car_destination, load_talk2car_trajectory=load_talk2car_trajectory)
 
 def main():
-    ds = get_talk2car_class("./data", split="val", load_talk2car_destination=True)
-    print("#Commands for split {}: {}".format(ds.split, len(ds.commands)))
+    ds = get_talk2car_class("./data", split="val", load_talk2car_destination=True, load_talk2car_trajectory=True)
+    print("#Commands for split {}: {}".format(ds.version, len(ds.commands)))
 
 if __name__ == "__main__":
     main()

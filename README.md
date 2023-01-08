@@ -26,6 +26,7 @@ An example image from Talk2Car given below for the following command: "You can p
 
 # <a name="changelog"></a>Changelog
 
+- 8th January, 2023: Talk2Car-Trajectory support in Talk2Car class and added it to extensions section.
 - 13th September, 2022: Added Talk2Car-RegSeg dataset in extensions section.
 - 26th July, 2022: Added Talk2Car-Destination support in Talk2Car.
 - 3rd July, 2022: Added Talk2Car-Destination dataset in the extensions section.
@@ -186,8 +187,9 @@ Additionally, we include the images and commands as separate files which avoids 
 # <a name="extensions"></a>Extensions
 
 - Talk2Car-Expr - [Paper](https://www.sciencedirect.com/science/article/pii/S0952197621001044) - [Dataset](https://github.com/ThierryDeruyttere/Talk2Car-Expr)
-- Talk2Car-Destination [Paper](https://www.aaai.org/AAAI22Papers/AAAI-8858.GrujicicD.pdf) - [Dataset](https://github.com/ThierryDeruyttere/Talk2Car-Destination)
-- Talk2Car-RegSeg [Paper](https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=9636172) - [Dataset](https://rnr-t2c.github.io/)
+- Talk2Car-Destination - [Paper](https://www.aaai.org/AAAI22Papers/AAAI-8858.GrujicicD.pdf) - [Dataset](https://github.com/ThierryDeruyttere/Talk2Car-Destination)
+- Talk2Car-RegSeg - [Paper](https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=9636172) - [Dataset](https://rnr-t2c.github.io/)
+- Talk2Car-Trajectory - [Paper](https://ieeexplore.ieee.org/stamp/stamp.jsp?arnumber=9961196) - [Dataset](https://github.com/ThierryDeruyttere/Talk2Car-Trajectory)
 
 # <a name="citation"></a>Citation
 
