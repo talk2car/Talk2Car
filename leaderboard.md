@@ -22,7 +22,7 @@ Pull requests with new results and models are always welcome!
 | [CMRT](https://link.springer.com/chapter/10.1007/978-3-030-66096-3_3) | 69.1 | |
 | [Sentence-BERT+FCOS3D](https://www.aaai.org/AAAI22Papers/AAAI-8858.GrujicicD.pdf) | 70.1 | |
 | [Stacked VLBert](https://link.springer.com/chapter/10.1007/978-3-030-66096-3_2) | 71.0 | |
-
+| [FA](https://ieeexplore.ieee.org/stamp/stamp.jsp?arnumber=9961196) | 73.51 |
 Additional details about some of the baselines and state-of-the-art models mentioned in the leaderboard are also analysed in the C4AV challenge summary paper found [here](https://link.springer.com/chapter/10.1007/978-3-030-66096-3_1).
 
 </div>
