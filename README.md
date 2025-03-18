@@ -96,19 +96,12 @@ Activate the `talk2car` environment if this is not done yet.
 source activate talk2car
 ```
 
-then,
-
+then, download the data from
 ```
-pip install gdown
-```
-
-Now download the images
-
-```
-gdown --id 1bhcdej7IFj5GqfvXGrHGPk2Knxe77pek
+https://drive.google.com/file/d/1NkZB1yCya8yW1X326f28GqQRcxsDmXBa/view?usp=drive_link
 ```
 
-Unpack them,
+Unpack the images,
 
 ```
 unzip imgs.zip && mv imgs/ ./data/images
