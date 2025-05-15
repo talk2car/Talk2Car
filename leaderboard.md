@@ -24,6 +24,8 @@ Pull requests with new results and models are always welcome!
 | [SCRC](https://arxiv.org/abs/1511.04164) | 38.7 | |
 | [OSM](https://arxiv.org/pdf/1406.5679.pdf) | 35.31 | |
 | [STACK-NMN](https://arxiv.org/pdf/1807.08556.pdf) | 33.71 | |
+
+
 Additional details about some of the baselines and state-of-the-art models mentioned in the leaderboard are also analysed in the C4AV challenge summary paper found [here](https://link.springer.com/chapter/10.1007/978-3-030-66096-3_1).
 
 </div>
