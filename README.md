@@ -98,7 +98,7 @@ source activate talk2car
 
 then, download the data from
 ```
-https://drive.google.com/file/d/1NkZB1yCya8yW1X326f28GqQRcxsDmXBa/view?usp=drive_link
+https://drive.google.com/file/d/1bhcdej7IFj5GqfvXGrHGPk2Knxe77pek/view?usp=drive_link
 ```
 
 Unpack the images,
